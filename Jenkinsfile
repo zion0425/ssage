@@ -7,7 +7,7 @@ pipeline {
         stage('Checkout') {
             steps {
           		  // credentialId '{github credential id}'
-                git url: 'https://github.com/zion0425/ssage.git, branch: 'main', credentialsId: 'root'
+                git url: 'https://github.com/zion0425/ssage.git', branch: 'main', credentialsId: 'root'
             }
         }
     }
