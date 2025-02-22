@@ -1,12 +1,9 @@
 pipeline {
     agent any
-    
     environment {
-        FRONTEND_DIR = '/var/www/html'        // Nginx 배포 경로
-        BACKEND_DIR = '/home/ubuntu/backend'  // Spring Boot 배포 경로
-        BACKEND_PORT = '8081'                 // 백엔드 서비스 포트
+        FRONTEND_DIR = 'frontend'
+        BACKEND_DIR = 'backend/ssage/ssage'
     }
-
     stages {
         stage('Pull Source Code') {
             steps {
@@ -14,66 +11,53 @@ pipeline {
                 git url: 'https://github.com/zion0425/ssage.git', branch: 'main', credentialsId: 'root'
             }
         }
-
         stage('Check Changes') {
             steps {
                 script {
                     echo 'Checking for changes in frontend and backend...'
-                    env.CHANGED_FILES = sh(
-                        script: "git diff --name-only ${GIT_PREVIOUS_SUCCESSFUL_COMMIT} ${GIT_COMMIT}",
-                        returnStdout: true
-                    ).trim()
-                    
-                    env.FRONTEND_CHANGED = sh(
-                        script: "echo \"$CHANGED_FILES\" | grep -q '^frontend/' && echo 'true' || echo 'false'",
-                        returnStdout: true
-                    ).trim()
-                    
-                    env.BACKEND_CHANGED = sh(
-                        script: "echo \"$CHANGED_FILES\" | grep -q '^backend/' && echo 'true' || echo 'false'",
-                        returnStdout: true
-                    ).trim()
-                    
-                    echo "Frontend changed: ${env.FRONTEND_CHANGED}"
-                    echo "Backend changed: ${env.BACKEND_CHANGED}"
+                    def changes = sh(script: "git diff --name-only \$(git rev-parse HEAD~1) \$(git rev-parse HEAD)", returnStdout: true).trim().split('\n')
+                    env.frontendChanged = changes.any { it.startsWith(FRONTEND_DIR) }.toString()
+                    env.backendChanged = changes.any { it.startsWith(BACKEND_DIR) }.toString()
+                    echo "Frontend changed: ${env.frontendChanged}"
+                    echo "Backend changed: ${env.backendChanged}"
                 }
             }
         }
-                
         stage('Deploy Frontend') {
-            when { expression { return frontendChanged } }
+            when {
+                expression { env.frontendChanged == 'true' }
+            }
             steps {
-                echo 'Deploying Frontend to Nginx...'
+                echo 'Deploying frontend...'
                 sh '''
-                    sudo mkdir -p /var/www/html
-                    sudo rm -rf /var/www/html/*
-                    sudo cp -r frontend/public/* /var/www/html
+                    cd ${FRONTEND_DIR}
+                    cp -r * /var/www/html
                 '''
             }
         }
-        
         stage('Build and Deploy Backend') {
             when {
-                expression { env.BACKEND_CHANGED == 'true' }
+                expression { env.backendChanged == 'true' }
             }
             steps {
-                echo 'Building and Deploying Backend...'
-                dir('backend') {
-                    sh './gradlew clean build'  // Gradle 사용 시 (Maven 사용 시 'mvn clean package')
-                }
-                
-                sh 'pkill -f "java -jar" || true'  // 기존 Spring Boot 앱 종료
-                sh 'nohup java -jar backend/build/libs/*.jar --server.port=$BACKEND_PORT > backend.log 2>&1 &'
+                echo 'Building and deploying backend...'
+                sh '''
+                    cd ${BACKEND_DIR}
+                    ./gradlew build
+                    docker stop ssage-backend || true
+                    docker rm ssage-backend || true
+                    docker build -t ssage-backend .
+                    docker run -d -p 8080:8080 --name ssage-backend ssage-backend
+                '''
             }
         }
     }
-
     post {
-        success {
-            echo 'Deployment successful!!'
-        }
         failure {
             echo 'Deployment failed!'
+        }
+        success {
+            echo 'Deployment succeeded!'
         }
     }
 }
