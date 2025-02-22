@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="934d390c-c2c6-4d58-8dbe-8636411ee5e6" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/ssage/src/main/java/com/ssagessage/ssage/controller/SearchController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssage/src/main/java/com/ssagessage/ssage/crawler/BaiduCrawler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssage/src/main/java/com/ssagessage/ssage/crawler/GoogleCrawler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssage/src/main/java/com/ssagessage/ssage/crawler/NaverCrawler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssage/src/main/java/com/ssagessage/ssage/dto/SearchRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssage/src/main/java/com/ssagessage/ssage/dto/SearchResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssage/src/main/java/com/ssagessage/ssage/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssage/src/main/java/com/ssagessage/ssage/service/SearchService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ssage/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ssage/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="934d390c-c2c6-4d58-8dbe-8636411ee5e6" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +29,10 @@
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/admin/ssage/backend/ssage/ssage/src/main/java/com/ssagessage/ssage/crawler",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -67,7 +62,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740202916499</updated>
       <workItem from="1740202917581" duration="99000" />
-      <workItem from="1740208129879" duration="294000" />
+      <workItem from="1740208129879" duration="941000" />
     </task>
     <servers />
   </component>

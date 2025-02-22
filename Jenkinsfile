@@ -49,6 +49,7 @@ pipeline {
                 echo 'Building and deploying backend...'
                 sh '''
                     cd ${BACKEND_DIR}
+                    chmod +x gradlew   # 실행 권한 추가
                     ./gradlew build
                     docker stop ssage-backend || true
                     docker rm ssage-backend || true
