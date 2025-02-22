@@ -1,0 +1,77 @@
+/* 전체 레이아웃 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* 메인 검색 박스 스타일 */
+#search-container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+input[type="file"] {
+    margin: 20px 0;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* 검색 결과 리스트 스타일 */
+#results {
+    width: 80%;
+    max-width: 800px;
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.result-item {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.result-item:hover {
+    transform: translateY(-5px);
+}
+
+.result-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.result-item a {
+    display: block;
+    margin-top: 10px;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.result-item a:hover {
+    text-decoration: underline;
+}
