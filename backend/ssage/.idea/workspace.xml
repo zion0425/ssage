@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="58749668-9dc8-40cc-946f-f665cd058466" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ssage/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ssage/controller/TestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740220855968</updated>
       <workItem from="1740220857275" duration="1604000" />
-      <workItem from="1740222484843" duration="49000" />
+      <workItem from="1740222484843" duration="758000" />
     </task>
     <servers />
   </component>
