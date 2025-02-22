@@ -25,18 +25,18 @@ pipeline {
         }
         stage('Deploy Frontend') {
             when {
-                expression { return frontendChanged }
+                expression { env.frontendChanged == 'true' }
             }
             steps {
                 echo 'Deploying frontend...'
                 dir('frontend') {
                     sh '''
                         sudo mkdir -p /var/www/html
-                        sudo rm -rf /var/www/html/* # 기존 파일 삭제
+                        sudo rm -rf /var/www/html/* 
                         sudo cp -r app.js index.html public styles.css /var/www/html
                         sudo chown -R www-data:www-data /var/www/html
                         sudo chmod -R 755 /var/www/html
-                        ls -al /var/www/html # 파일 복사 확인
+                        ls -al /var/www/html
                     '''
                 }
             }
@@ -47,15 +47,21 @@ pipeline {
             }
             steps {
                 echo 'Building and deploying backend...'
-                sh '''
-                    cd ${BACKEND_DIR}
-                    chmod +x gradlew   # 실행 권한 추가
-                    ./gradlew clean build
-                    docker stop ssage-backend || true
-                    docker rm ssage-backend || true
-                    docker build -t ssage-backend .
-                    docker run -d -p 8081:8081 --name ssage-backend ssage-backend
-                '''
+                dir("${BACKEND_DIR}") {
+                    sh '''
+                        chmod +x gradlew   
+                        ./gradlew clean build
+
+                        # Docker 이미지 클린 빌드
+                        docker stop ssage-backend || true
+                        docker rm ssage-backend || true
+
+                        # Docker 캐시 사용 안 함 (--no-cache)
+                        docker build --no-cache -t ssage-backend .
+
+                        docker run -d -p 8081:8081 --name ssage-backend ssage-backend
+                    '''
+                }
             }
         }
     }
