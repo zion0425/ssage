@@ -54,7 +54,7 @@ pipeline {
                     docker stop ssage-backend || true
                     docker rm ssage-backend || true
                     docker build -t ssage-backend .
-                    docker run -d -p 8080:8080 --name ssage-backend ssage-backend
+                    docker run -d -p 8081:8081 --name ssage-backend ssage-backend
                 '''
             }
         }

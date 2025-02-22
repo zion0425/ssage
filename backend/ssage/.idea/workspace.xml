@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="934d390c-c2c6-4d58-8dbe-8636411ee5e6" name="변경" comment="" />
+    <list default="true" id="934d390c-c2c6-4d58-8dbe-8636411ee5e6" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ssage/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/ssage/build.gradle" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +65,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740202916499</updated>
       <workItem from="1740202917581" duration="99000" />
-      <workItem from="1740208129879" duration="941000" />
+      <workItem from="1740208129879" duration="1708000" />
     </task>
     <servers />
   </component>
