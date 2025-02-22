@@ -17,6 +17,11 @@ public class SearchController {
 
     private final SearchService searchService;
 
+    @GetMapping
+    public String testSearch(){
+        return "Search API is working!";
+    }
+
     @PostMapping
     public ResponseEntity<List<SearchResponse>> search(@RequestParam("image") MultipartFile image) {
         List<SearchResponse> results = searchService.searchByImage(image);
