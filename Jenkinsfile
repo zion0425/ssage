@@ -41,13 +41,14 @@ pipeline {
         }
                 
         stage('Deploy Frontend') {
-            when {
-                expression { env.FRONTEND_CHANGED == 'true' }
-            }
+            when { expression { return frontendChanged } }
             steps {
                 echo 'Deploying Frontend to Nginx...'
-                sh 'sudo rm -rf $FRONTEND_DIR/*'
-                sh 'sudo cp -r frontend/public/* $FRONTEND_DIR'
+                sh '''
+                    sudo mkdir -p /var/www/html
+                    sudo rm -rf /var/www/html/*
+                    sudo cp -r frontend/public/* /var/www/html
+                '''
             }
         }
         
