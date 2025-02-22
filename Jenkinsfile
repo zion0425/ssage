@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         FRONTEND_DIR = 'frontend'
-        BACKEND_DIR = 'backend/ssage/ssage'
+        BACKEND_DIR = 'backend/ssage'
     }
     stages {
         stage('Pull Source Code') {
