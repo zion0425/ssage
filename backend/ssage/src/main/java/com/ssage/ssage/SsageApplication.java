@@ -1,14 +1,13 @@
-package com.ssagessage.ssage;
+package com.ssage.ssage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-// test
 @SpringBootApplication
 public class SsageApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SsageApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SsageApplication.class, args);
+    }
 
 }
