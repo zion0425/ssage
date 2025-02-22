@@ -32,8 +32,11 @@ pipeline {
                 dir('frontend') {
                     sh '''
                         sudo mkdir -p /var/www/html
+                        sudo rm -rf /var/www/html/* # 기존 파일 삭제
                         sudo cp -r app.js index.html public styles.css /var/www/html
-                        ls -al /var/www/html # 파일 복사 확인용
+                        sudo chown -R www-data:www-data /var/www/html
+                        sudo chmod -R 755 /var/www/html
+                        ls -al /var/www/html # 파일 복사 확인
                     '''
                 }
             }
