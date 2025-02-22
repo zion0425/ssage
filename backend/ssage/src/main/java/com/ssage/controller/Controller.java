@@ -1,4 +1,4 @@
-package com.ssage.ssage.controller;
+package com.ssage.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
