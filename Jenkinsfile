@@ -31,8 +31,9 @@ pipeline {
                 echo 'Deploying frontend...'
                 dir('frontend') {
                     sh '''
-                        mkdir -p /var/www/html
-                        cp -r app.js index.html public styles.css /var/www/html
+                        sudo mkdir -p /var/www/html
+                        sudo cp -r app.js index.html public styles.css /var/www/html
+                        ls -al /var/www/html # 파일 복사 확인용
                     '''
                 }
             }
