@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +9,17 @@
 <body>
     <div class="container">
         <h1>SSAGE - 이미지 최저가 검색</h1>
-        <div class="search-box">
-            <input type="file" id="imageInput" accept="image/*">
-            <button onclick="searchImage()">이미지 검색</button>
-        </div>
-        <div class="results" id="results"></div>
+
+        <!-- 🛠️ 수정: form 태그 추가 및 id 설정 -->
+        <form id="searchForm" class="search-box">
+            <input type="file" id="imageInput" accept="image/*" required>
+            <button type="submit">이미지 검색</button>
+        </form>
+
+        <!-- 🛠️ 수정: 결과를 보여줄 ul 태그에 id 추가 -->
+        <ul class="results" id="resultsList"></ul>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>
