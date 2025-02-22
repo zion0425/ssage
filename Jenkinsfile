@@ -25,14 +25,16 @@ pipeline {
         }
         stage('Deploy Frontend') {
             when {
-                expression { env.frontendChanged == 'true' }
+                expression { return frontendChanged }
             }
             steps {
                 echo 'Deploying frontend...'
-                sh '''
-                    cd ${FRONTEND_DIR}
-                    cp -r * /var/www/html
-                '''
+                dir('frontend') {
+                    sh '''
+                        mkdir -p /var/www/html
+                        cp -r app.js index.html public styles.css /var/www/html
+                    '''
+                }
             }
         }
         stage('Build and Deploy Backend') {
