@@ -96,7 +96,7 @@ public class GoogleCrawler {
             log.info("✅ 구글 이미지 검색 페이지 접근 완료");
 
             // "이미지로 검색" 버튼 찾기
-            WebElement searchByImageButton = driver.findElement(By.cssSelector("div.qbtbha.qbtbtxt"));
+            WebElement searchByImageButton = driver.findElement(By.cssSelector("div.e8Eule.PXT6cd.Qwbd3"));
             searchByImageButton.click();
             log.info("✅ 이미지 검색 버튼 클릭 완료");
 
