@@ -68,10 +68,12 @@ pipeline {
 
                         echo "Running backend Docker container..."
                         docker run -d -p 8081:8081 --name ssage-backend \
+                            -v /usr/local/bin/chromedriver:/usr/local/bin/chromedriver \
                             -v /usr/bin/chromium-browser:/usr/bin/chromium-browser \
-                            -v /usr/bin/chromedriver:/usr/bin/chromedriver \
+                            -v /usr/lib/chromium/:/usr/lib/chromium/ \
+                            -e CHROME_BIN="/usr/bin/chromium-browser" \
+                            -e CHROME_DRIVER="/usr/local/bin/chromedriver" \
                             ssage-backend
-
 
                         echo "Backend deployment completed."
                     '''

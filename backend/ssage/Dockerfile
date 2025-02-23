@@ -7,9 +7,9 @@ WORKDIR /app
 # 📦 JAR 파일 복사
 COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
-# 🌐 호스트 OS의 Chromium & ChromeDriver 사용 (Docker 내부에서는 설치하지 않음)
+# 🌐 호스트 OS의 Chromium & ChromeDriver 사용 (Docker 내부에는 설치하지 않음)
 ENV CHROME_BIN="/usr/bin/chromium-browser"
-ENV CHROME_DRIVER="/usr/bin/chromedriver"
+ENV CHROME_DRIVER="/usr/local/bin/chromedriver"
 
 # 🌐 컨테이너 내에서 사용될 포트
 EXPOSE 8081
