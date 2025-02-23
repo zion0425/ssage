@@ -7,6 +7,9 @@ WORKDIR /app
 # 📦 JAR 파일 복사
 COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
+RUN apt update && apt install -y chromium-browser
+RUN chmod -R 777 /tmp
+
 # 🌐 컨테이너 내에서 사용될 포트
 EXPOSE 8081
 
