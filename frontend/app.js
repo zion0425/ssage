@@ -21,7 +21,14 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
             throw new Error("이미지 검색 중 오류가 발생했습니다.");
         }
 
-        const results = await response.json();
+        // 🔹 응답이 비어있다면 JSON 변환을 시도하지 않음
+        const text = await response.text();
+        if (!text) {
+            displayResults([]); // 빈 결과 처리
+            return;
+        }
+
+        const results = JSON.parse(text);
         displayResults(results);
 
     } catch (error) {
@@ -29,6 +36,7 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
         console.error("검색 오류:", error);
     }
 });
+
 
 function displayResults(results) {
     const resultsList = document.getElementById("resultsList");

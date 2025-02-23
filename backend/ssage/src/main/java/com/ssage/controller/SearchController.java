@@ -21,7 +21,7 @@ public class SearchController {
     @PostMapping
     public ResponseEntity<List<SearchResponse>> searchByImage(@RequestParam("image") MultipartFile image) {
         if (image.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(List.of()); // 빈 JSON 배열 반환
         }
 
         log.info("이미지 검색 요청: {}", image.getOriginalFilename());
@@ -29,9 +29,10 @@ public class SearchController {
         List<SearchResponse> results = searchService.searchByImage(image);
 
         if (results.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(List.of()); // 204 No Content 대신 빈 리스트 반환
         }
 
         return ResponseEntity.ok(results);
     }
+
 }
