@@ -7,7 +7,22 @@ WORKDIR /app
 # 📦 JAR 파일 복사
 COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
-# 🌐 호스트 OS의 Chromium & ChromeDriver 사용 (Docker 내부에는 설치하지 않음)
+# 🌐 ChromeDriver 실행을 위한 필수 라이브러리 설치
+RUN apt update && apt install -y \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm-dev \
+    libasound2 \
+    libnspr4 \
+    libnss3 \
+    fonts-liberation \
+    libappindicator3-1 \
+    xdg-utils
+
+# 🌐 환경변수 설정 (호스트 OS의 Chromium & ChromeDriver 사용)
 ENV CHROME_BIN="/usr/bin/chromium-browser"
 ENV CHROME_DRIVER="/usr/local/bin/chromedriver"
 

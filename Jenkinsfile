@@ -68,6 +68,7 @@ pipeline {
 
                         echo "Running backend Docker container..."
                         docker run -d -p 8081:8081 --name ssage-backend \
+                            --shm-size=2g \  # ✅ 메모리 문제 방지
                             -v /usr/local/bin/chromedriver:/usr/local/bin/chromedriver \
                             -v /usr/bin/chromium-browser:/usr/bin/chromium-browser \
                             -v /usr/lib/chromium/:/usr/lib/chromium/ \

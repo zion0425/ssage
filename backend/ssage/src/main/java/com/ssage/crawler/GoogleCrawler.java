@@ -77,8 +77,9 @@ public class GoogleCrawler {
         ChromeOptions options = new ChromeOptions();
         options.setBinary("/usr/bin/chromium-browser");  // ✅ 인스턴스 서버의 Chromium 사용
         options.addArguments("--headless");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");  // ✅ Chrome이 Docker에서 정상 실행되도록 설정
+        options.addArguments("--disable-gpu");  // ✅ GPU 관련 오류 방지
+        options.addArguments("--disable-dev-shm-usage");  // ✅ 메모리 부족 문제 방지
 
         WebDriver driver = new ChromeDriver(options);
         try {
