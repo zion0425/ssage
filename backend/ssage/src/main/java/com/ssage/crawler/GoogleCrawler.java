@@ -69,7 +69,7 @@ public class GoogleCrawler {
     }
 
     /**
-     * 🔹 Selenium을 이용해 구글 이미지 검색 수행 후 검색 결과 URL 반환
+     * 🔹 Selenium을 이용해 구글 이미지 검색 수행 후 검색 결과 URL 반환 test
      */
     private String uploadImageAndSearch(File imageFile) {
         System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");  // ✅ 올바른 경로 설정
