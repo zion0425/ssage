@@ -16,8 +16,8 @@ pipeline {
                 script {
                     echo 'Checking for changes in frontend and backend...'
                     def changes = sh(script: "git diff --name-only \$(git rev-parse HEAD~1) \$(git rev-parse HEAD)", returnStdout: true).trim().split('\n')
-                    env.frontendChanged = changes.any { it.startsWith(FRONTEND_DIR) }.toString()
-                    env.backendChanged = changes.any { it.startsWith(BACKEND_DIR) }.toString()
+                    env.frontendChanged = changes.any { it.startsWith(env.FRONTEND_DIR) }.toString()
+                    env.backendChanged = changes.any { it.startsWith(env.BACKEND_DIR) }.toString()
                     echo "Frontend changed: ${env.frontendChanged}"
                     echo "Backend changed: ${env.backendChanged}"
                 }
@@ -29,13 +29,20 @@ pipeline {
             }
             steps {
                 echo 'Deploying frontend...'
-                dir('frontend') {
+                dir(env.FRONTEND_DIR) {
                     sh '''
+                        echo "Preparing frontend deployment..."
                         sudo mkdir -p /var/www/html
                         sudo rm -rf /var/www/html/* 
-                        sudo cp -r app.js index.html public styles.css /var/www/html
+
+                        # 필요한 파일만 복사
+                        sudo cp -r * /var/www/html
+                        
+                        # 권한 설정
                         sudo chown -R www-data:www-data /var/www/html
                         sudo chmod -R 755 /var/www/html
+
+                        echo "Frontend deployment completed."
                     '''
                 }
             }
@@ -46,19 +53,24 @@ pipeline {
             }
             steps {
                 echo 'Building and deploying backend...'
-                dir("${BACKEND_DIR}") {
+                dir(env.BACKEND_DIR) {
                     sh '''
-                        chmod +x gradlew   
+                        echo "Starting backend build process..."
+                        chmod +x gradlew
                         ./gradlew clean build
 
-                        # Docker 이미지 클린 빌드
-                        docker stop backend || true
-                        docker rm backend || true
+                        echo "Cleaning up old Docker containers and images..."
+                        docker stop ssage-backend || true
+                        docker rm ssage-backend || true
+                        docker rmi ssage-backend || true
 
-                        # Docker 캐시 사용 안 함 (--no-cache)
-                        docker build --no-cache -t backend .
+                        echo "Building Docker image for backend..."
+                        docker build --no-cache -t ssage-backend .
 
-                        docker run -d -p 8081:8081 backend backend
+                        echo "Running backend Docker container..."
+                        docker run -d -p 8081:8081 --name ssage-backend ssage-backend
+
+                        echo "Backend deployment completed."
                     '''
                 }
             }
@@ -66,10 +78,10 @@ pipeline {
     }
     post {
         failure {
-            echo 'Deployment failed!'
+            echo '❌ Deployment failed! Check the logs for more details.'
         }
         success {
-            echo 'Deployment succeeded!'
+            echo '✅ Deployment succeeded!'
         }
     }
 }
