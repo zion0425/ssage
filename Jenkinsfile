@@ -67,7 +67,11 @@ pipeline {
                         docker build --no-cache -t ssage-backend .
 
                         echo "Running backend Docker container..."
-                        docker run -d -p 8081:8081 --name ssage-backend ssage-backend
+                        docker run -d -p 8081:8081 --name ssage-backend \
+                            -v /usr/bin/chromium-browser:/usr/bin/chromium-browser \
+                            -v /usr/bin/chromedriver:/usr/bin/chromedriver \
+                            ssage-backend
+
 
                         echo "Backend deployment completed."
                     '''

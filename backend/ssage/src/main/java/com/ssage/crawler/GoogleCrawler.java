@@ -1,6 +1,7 @@
 package com.ssage.crawler;
 
 import com.ssage.dto.SearchResponse;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -77,10 +78,10 @@ public class GoogleCrawler {
      * 🔹 Selenium을 이용해 구글 이미지 검색 수행 후 검색 결과 URL 반환
      */
     private String uploadImageAndSearch(File imageFile) {
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+        WebDriverManager.chromedriver().setup();  // ✅ ChromeDriver 자동 다운로드 & 설정
 
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("/usr/bin/chromium-browser");  // ✅ Chromium 사용하도록 설정
+        options.setBinary("/usr/bin/chromium-browser");  // ✅ 인스턴스 서버의 Chromium 사용
         options.addArguments("--headless");  // ✅ GUI 없이 실행
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");

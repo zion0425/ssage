@@ -7,12 +7,12 @@ WORKDIR /app
 # 📦 JAR 파일 복사
 COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
-RUN apt update && apt install -y chromium-browser
-RUN chmod -R 777 /tmp
+# 🌐 호스트 OS의 Chromium & ChromeDriver 사용 (Docker 내부에서는 설치하지 않음)
+ENV CHROME_BIN="/usr/bin/chromium-browser"
+ENV CHROME_DRIVER="/usr/bin/chromedriver"
 
 # 🌐 컨테이너 내에서 사용될 포트
 EXPOSE 8081
 
 # 🚀 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
