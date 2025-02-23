@@ -36,7 +36,6 @@ pipeline {
                         sudo cp -r app.js index.html public styles.css /var/www/html
                         sudo chown -R www-data:www-data /var/www/html
                         sudo chmod -R 755 /var/www/html
-                        ls -al /var/www/html
                     '''
                 }
             }
@@ -53,13 +52,13 @@ pipeline {
                         ./gradlew clean build
 
                         # Docker 이미지 클린 빌드
-                        docker stop ssage-backend || true
-                        docker rm ssage-backend || true
+                        docker stop backend || true
+                        docker rm backend || true
 
                         # Docker 캐시 사용 안 함 (--no-cache)
-                        docker build --no-cache -t ssage-backend .
+                        docker build --no-cache -t backend .
 
-                        docker run -d -p 8081:8081 --name ssage-backend ssage-backend
+                        docker run -d -p 8081:8081 backend
                     '''
                 }
             }
