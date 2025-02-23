@@ -75,13 +75,16 @@ public class GoogleCrawler {
         System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");  // ✅ 올바른 경로 설정
 
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("/usr/bin/chromium-browser");  // ✅ 인스턴스 서버의 Chromium 사용
+        options.setBinary("/usr/bin/chromium");  // ✅ Chromium을 실행하도록 설정
         options.addArguments("--headless");
         options.addArguments("--no-sandbox");  // ✅ Chrome이 Docker에서 정상 실행되도록 설정
         options.addArguments("--disable-gpu");  // ✅ GPU 관련 오류 방지
         options.addArguments("--disable-dev-shm-usage");  // ✅ 메모리 부족 문제 방지
+        options.addArguments("--disable-software-rasterizer");  // ✅ GPU 렌더링 비활성화 (DBus 문제 해결)
+        options.addArguments("--disable-features=VizDisplayCompositor");  // ✅ VizDisplayCompositor 비활성화
 
         WebDriver driver = new ChromeDriver(options);
+
         try {
             log.info("✅ Selenium WebDriver 실행 시작...");
             driver = new ChromeDriver(options);

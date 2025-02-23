@@ -7,8 +7,10 @@ WORKDIR /app
 # 📦 JAR 파일 복사
 COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
-# 🌐 ChromeDriver 실행을 위한 필수 라이브러리 설치
+# 🌐 필수 라이브러리 및 Chromium + dbus 설치
 RUN apt update && apt install -y \
+    chromium \
+    dbus \
     libx11-xcb1 \
     libxcomposite1 \
     libxcursor1 \
@@ -19,11 +21,14 @@ RUN apt update && apt install -y \
     libnspr4 \
     libnss3 \
     fonts-liberation \
-    libappindicator3-1 \
+    libayatana-appindicator3-1 \
     xdg-utils
 
-# 🌐 환경변수 설정 (호스트 OS의 Chromium & ChromeDriver 사용)
-ENV CHROME_BIN="/usr/bin/chromium-browser"
+# ✅ DBus 서비스 실행 (컨테이너 내부에서 `chromium`이 정상 실행되도록 설정)
+RUN mkdir -p /run/dbus && dbus-daemon --system --fork
+
+# 🌐 환경변수 설정 (Docker 내부에서 Chromium 실행 가능하도록)
+ENV CHROME_BIN="/usr/bin/chromium"
 ENV CHROME_DRIVER="/usr/local/bin/chromedriver"
 
 # 🌐 컨테이너 내에서 사용될 포트
