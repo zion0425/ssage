@@ -67,7 +67,7 @@ pipeline {
                         docker build --no-cache -t ssage-backend .
 
                         echo "Running backend Docker container..."
-                        docker run -d -p 8081:8081 --name ssage-backend --shm-size=2g -v /usr/local/bin/chromedriver:/usr/local/bin/chromedriver -v /usr/bin/chromium-browser:/usr/bin/chromium-browser -v /usr/lib/chromium/:/usr/lib/chromium/ -e CHROME_BIN="/usr/bin/chromium-browser" -e CHROME_DRIVER="/usr/local/bin/chromedriver" ssage-backend
+                        docker run -d -p 8081:8081 --name ssage-backend --shm-size=2g -e CHROME_BIN="/usr/bin/chromium" -e CHROME_DRIVER="/usr/local/bin/chromedriver" ssage-backend
 
                         echo "Backend deployment completed."
                     '''

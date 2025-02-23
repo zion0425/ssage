@@ -12,6 +12,7 @@ RUN apt update && apt install -y \
     chromium \
     dbus \
     curl \
+    jq \
     libx11-xcb1 \
     libxcomposite1 \
     libxcursor1 \
@@ -26,10 +27,10 @@ RUN apt update && apt install -y \
     xdg-utils \
     wget unzip
 
-# ✅ ChromeDriver 최신 버전 자동 검색 후 설치
-RUN CHROMIUM_VERSION=$(chromium --version | awk '{print $2}') && \
-    LATEST_CHROMEDRIVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROMIUM_VERSION") && \
-    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip" && \
+# ✅ 정확한 ChromeDriver 버전 자동 검색 후 설치
+RUN CHROMIUM_VERSION=$(chromium --version | awk '{print $2}' | cut -d '.' -f1) && \
+    LATEST_CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build-with-downloads.json" | jq -r --arg CHROMIUM_VERSION "$CHROMIUM_VERSION" '.builds[$CHROMIUM_VERSION].downloads.chromedriver.linux64.url') && \
+    wget -O /tmp/chromedriver.zip "$LATEST_CHROMEDRIVER_URL" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
