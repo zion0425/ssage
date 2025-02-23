@@ -28,9 +28,12 @@ RUN apt update && apt install -y \
     wget unzip \
     chromium
 
-# ✅ 정확한 ChromeDriver 버전 자동 검색 후 설치
+# ✅ 정확한 ChromeDriver 버전 자동 검색 후 설치 (에러 방지용 기본값 추가)
 RUN CHROMIUM_VERSION=$(chromium --version | awk '{print $2}' | cut -d '.' -f1) && \
+    echo "Detected Chromium version: $CHROMIUM_VERSION" && \
+    if [ -z "$CHROMIUM_VERSION" ]; then CHROMIUM_VERSION="120"; fi && \
     LATEST_CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build-with-downloads.json" | jq -r --arg CHROMIUM_VERSION "$CHROMIUM_VERSION" '.builds[$CHROMIUM_VERSION].downloads.chromedriver.linux64.url') && \
+    echo "Downloading ChromeDriver from: $LATEST_CHROMEDRIVER_URL" && \
     wget -O /tmp/chromedriver.zip "$LATEST_CHROMEDRIVER_URL" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
