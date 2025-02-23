@@ -78,11 +78,11 @@ public class GoogleCrawler {
      * 🔹 Selenium을 이용해 구글 이미지 검색 수행 후 검색 결과 URL 반환
      */
     private String uploadImageAndSearch(File imageFile) {
-        WebDriverManager.chromedriver().setup();  // ✅ ChromeDriver 자동 다운로드 & 설정
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");  // ✅ 호스트 OS의 ChromeDriver 경로 직접 설정
 
         ChromeOptions options = new ChromeOptions();
         options.setBinary("/usr/bin/chromium-browser");  // ✅ 인스턴스 서버의 Chromium 사용
-        options.addArguments("--headless");  // ✅ GUI 없이 실행
+        options.addArguments("--headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
 
