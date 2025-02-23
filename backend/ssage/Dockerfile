@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # 📦 JAR 파일 복사
-COPY ssage/build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
 # 🌐 컨테이너 내에서 사용될 포트
 EXPOSE 8081

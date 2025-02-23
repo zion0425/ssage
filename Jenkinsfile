@@ -49,7 +49,7 @@ pipeline {
                 dir("${BACKEND_DIR}") {
                     sh '''
                         chmod +x gradlew   
-                        ./gradlew clean build
+                        ./gradlew clean build --no-build-cache
 
                         # Docker 이미지 클린 빌드
                         docker stop backend || true
