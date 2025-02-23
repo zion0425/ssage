@@ -12,7 +12,7 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
     formData.append("image", file);
 
     try {
-        const response = await fetch("https://34.64.235.196:8081/search", {
+        const response = await fetch("/search", {
             method: "POST",
             body: formData,
         });
