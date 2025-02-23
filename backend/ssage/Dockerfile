@@ -27,10 +27,12 @@ RUN wget -O google-chrome.deb https://dl.google.com/linux/direct/google-chrome-s
     dpkg -i google-chrome.deb || apt-get install -f -y && \
     rm google-chrome.deb
 
-# 🔍 Chrome 버전 확인 후 ChromeDriver 다운로드
+# 🔍 Chrome 버전 확인 후 ChromeDriver 최신 URL 자동 검색
 RUN CHROME_VERSION=$(google-chrome --version | cut -d " " -f3 | cut -d "." -f1) && \
-    echo "Detected Chrome version: $CHROME_VERSION" && \
-    CHROMEDRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}.0.6099.109/linux64/chromedriver-linux64.zip" && \
+    echo "✅ Detected Chrome version: $CHROME_VERSION" && \
+    CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build-with-downloads.json" \
+        | jq -r --arg CHROME_VERSION "$CHROME_VERSION" '.builds[$CHROME_VERSION].downloads.chromedriver[] | select(.platform == "linux64") | .url') && \
+    echo "📥 Downloading ChromeDriver from: $CHROMEDRIVER_URL" && \
     wget -O /tmp/chromedriver.zip "$CHROMEDRIVER_URL" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
