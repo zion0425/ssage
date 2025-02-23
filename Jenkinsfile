@@ -58,7 +58,7 @@ pipeline {
                         # Docker 캐시 사용 안 함 (--no-cache)
                         docker build --no-cache -t backend .
 
-                        docker run -d -p 8081:8081 backend
+                        docker run -d -p 8081:8081 backend backend
                     '''
                 }
             }
