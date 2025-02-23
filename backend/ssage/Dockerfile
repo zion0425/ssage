@@ -1,4 +1,4 @@
-# 🐧 Base 이미지 선택 (OpenJDK 17)
+# 🐧 Base 이미지 (OpenJDK 17)
 FROM openjdk:17-jdk-slim
 
 # 🏠 작업 디렉터리 설정
@@ -28,15 +28,22 @@ RUN apt update && apt install -y \
     wget unzip \
     chromium
 
-# ✅ 정확한 ChromeDriver 버전 자동 검색 후 설치 (에러 방지용 기본값 추가)
+# ✅ 정확한 ChromeDriver 버전 자동 검색 후 설치
 RUN CHROMIUM_VERSION=$(chromium --version | awk '{print $2}' | cut -d '.' -f1) && \
     echo "Detected Chromium version: $CHROMIUM_VERSION" && \
     if [ -z "$CHROMIUM_VERSION" ]; then CHROMIUM_VERSION="120"; fi && \
-    LATEST_CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build-with-downloads.json" | jq -r --arg CHROMIUM_VERSION "$CHROMIUM_VERSION" '.builds[$CHROMIUM_VERSION].downloads.chromedriver.linux64.url') && \
+    LATEST_CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build-with-downloads.json" | \
+    jq -r --arg CHROMIUM_VERSION "$CHROMIUM_VERSION" '.builds[$CHROMIUM_VERSION].downloads.chromedriver[] | select(.platform == "linux64") | .url') && \
+    if [ -z "$LATEST_CHROMEDRIVER_URL" ] || [ "$LATEST_CHROMEDRIVER_URL" = "null" ]; then \
+        echo "❌ Failed to fetch ChromeDriver URL! Using default version..."; \
+        LATEST_CHROMEDRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/120.0.6099.109/linux64/chromedriver-linux64.zip"; \
+    fi && \
     echo "Downloading ChromeDriver from: $LATEST_CHROMEDRIVER_URL" && \
     wget -O /tmp/chromedriver.zip "$LATEST_CHROMEDRIVER_URL" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
-    chmod +x /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/chromedriver-linux64/chromedriver && \
+    mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    rm -rf /usr/local/bin/chromedriver-linux64 && \
     rm /tmp/chromedriver.zip
 
 # ✅ DBus 서비스 실행 (컨테이너 내부에서 `chromium`이 정상 실행되도록 설정)
