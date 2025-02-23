@@ -20,7 +20,9 @@ import java.util.List;
 @Slf4j
 @Component
 public class GoogleCrawler {
-
+    public GoogleCrawler() {
+        WebDriverManager.chromedriver().setup();  // ✅ 자동으로 ChromeDriver 최신 버전 다운로드 및 설정
+    }
     private static final String GOOGLE_IMAGE_SEARCH_URL = "https://www.google.com/imghp?sbi=1";
 
     public List<SearchResponse> search(MultipartFile image) {

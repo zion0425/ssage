@@ -22,7 +22,15 @@ RUN apt update && apt install -y \
     libnss3 \
     fonts-liberation \
     libayatana-appindicator3-1 \
-    xdg-utils
+    xdg-utils \
+    wget unzip
+
+# ✅ ChromeDriver 최신 버전 다운로드 및 설치
+RUN CHROMIUM_VERSION=$(chromium --version | awk '{print $2}') && \
+    wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROMIUM_VERSION/chromedriver_linux64.zip && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm /tmp/chromedriver.zip
 
 # ✅ DBus 서비스 실행 (컨테이너 내부에서 `chromium`이 정상 실행되도록 설정)
 RUN mkdir -p /run/dbus && dbus-daemon --system --fork
