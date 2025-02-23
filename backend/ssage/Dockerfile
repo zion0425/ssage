@@ -7,7 +7,7 @@ WORKDIR /app
 # 📦 JAR 파일 복사
 COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
-# 🌐 필수 패키지 설치 및 업데이트
+# 🌐 필수 패키지 설치
 RUN apt update && apt install -y \
     curl \
     wget \
@@ -22,16 +22,16 @@ RUN apt update && apt install -y \
     libxss1 \
     fonts-liberation
 
-# 🌐 Google Chrome 설치
+# 🌐 최신 안정 Chrome 설치
 RUN wget -O google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     dpkg -i google-chrome.deb || apt-get install -f -y && \
     rm google-chrome.deb
 
-# 🔍 Chrome 버전 확인 후 ChromeDriver 최신 URL 자동 검색
-RUN CHROME_VERSION=$(google-chrome --version | cut -d " " -f3 | cut -d "." -f1) && \
+# 🔍 Chrome 최신 안정 버전 가져오기 & ChromeDriver 버전 자동 검색
+RUN CHROME_VERSION=$(google-chrome-stable --version | cut -d " " -f3 | cut -d "." -f1) && \
     echo "✅ Detected Chrome version: $CHROME_VERSION" && \
-    CHROMEDRIVER_URL=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/latest-patch-versions-per-build-with-downloads.json" \
-        | jq -r --arg CHROME_VERSION "$CHROME_VERSION" '.builds[$CHROME_VERSION].downloads.chromedriver[] | select(.platform == "linux64") | .url') && \
+    LATEST_CHROMEDRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_$CHROME_VERSION") && \
+    CHROMEDRIVER_URL="https://storage.googleapis.com/chrome-for-testing-public/$LATEST_CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip" && \
     echo "📥 Downloading ChromeDriver from: $CHROMEDRIVER_URL" && \
     wget -O /tmp/chromedriver.zip "$CHROMEDRIVER_URL" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
@@ -39,7 +39,7 @@ RUN CHROME_VERSION=$(google-chrome --version | cut -d " " -f3 | cut -d "." -f1) 
     rm /tmp/chromedriver.zip
 
 # 🌐 환경변수 설정 (Docker 내부에서 Chrome 실행 가능하도록)
-ENV CHROME_BIN="/usr/bin/google-chrome"
+ENV CHROME_BIN="/usr/bin/google-chrome-stable"
 ENV CHROME_DRIVER="/usr/local/bin/chromedriver"
 
 # 🌐 컨테이너 내에서 사용될 포트
