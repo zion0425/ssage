@@ -7,10 +7,11 @@ WORKDIR /app
 # 📦 JAR 파일 복사
 COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
-# 🌐 필수 라이브러리 및 Chromium + dbus 설치
+# 🌐 필수 라이브러리 및 Chromium 설치
 RUN apt update && apt install -y \
     chromium \
     dbus \
+    curl \
     libx11-xcb1 \
     libxcomposite1 \
     libxcursor1 \
@@ -25,9 +26,10 @@ RUN apt update && apt install -y \
     xdg-utils \
     wget unzip
 
-# ✅ ChromeDriver 최신 버전 다운로드 및 설치
+# ✅ ChromeDriver 최신 버전 자동 검색 후 설치
 RUN CHROMIUM_VERSION=$(chromium --version | awk '{print $2}') && \
-    wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROMIUM_VERSION/chromedriver_linux64.zip && \
+    LATEST_CHROMEDRIVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROMIUM_VERSION") && \
+    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
