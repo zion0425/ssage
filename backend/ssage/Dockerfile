@@ -7,9 +7,9 @@ WORKDIR /app
 # 📦 JAR 파일 복사
 COPY build/libs/ssage-0.0.1-SNAPSHOT.jar app.jar
 
-# 🌐 필수 라이브러리 및 Chromium 설치
+# 🌐 기존 `chromium` 패키지 제거 후, 필요한 패키지 설치
+RUN apt update && apt remove --purge -y chromium chromium-browser && apt autoremove -y
 RUN apt update && apt install -y \
-    chromium \
     dbus \
     curl \
     jq \
@@ -25,7 +25,8 @@ RUN apt update && apt install -y \
     fonts-liberation \
     libayatana-appindicator3-1 \
     xdg-utils \
-    wget unzip
+    wget unzip \
+    chromium
 
 # ✅ 정확한 ChromeDriver 버전 자동 검색 후 설치
 RUN CHROMIUM_VERSION=$(chromium --version | awk '{print $2}' | cut -d '.' -f1) && \
