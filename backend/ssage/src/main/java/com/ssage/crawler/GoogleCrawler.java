@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -94,6 +95,7 @@ public class GoogleCrawler {
 
             driver.get(GOOGLE_IMAGE_SEARCH_URL);
             log.info("✅ 구글 이미지 검색 페이지 접근 완료");
+
 
             // "이미지로 검색" 버튼 찾기
             WebElement searchByImageButton = driver.findElement(By.cssSelector("div.e8Eule.PXT6cd.Qwbd3"));

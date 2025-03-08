@@ -31,17 +31,22 @@ pipeline {
                 echo 'Deploying frontend...'
                 dir(env.FRONTEND_DIR) {
                     sh '''
-                        echo "Preparing frontend deployment..."
-                        sudo mkdir -p /var/www/html
-                        sudo rm -rf /var/www/html/* 
-
-                        # 필요한 파일만 복사
-                        sudo cp -r * /var/www/html
+                        echo "Installing dependencies for frontend..."
+                        npm install
                         
-                        # 권한 설정
+                        echo "Building frontend..."
+                        npm run build
+                        
+                        echo "Exporting static files..."
+                        npm run export
+                        
+                        echo "Deploying exported files to nginx web root..."
+                        sudo mkdir -p /var/www/html
+                        sudo rm -rf /var/www/html/*
+                        sudo cp -r out/* /var/www/html
                         sudo chown -R www-data:www-data /var/www/html
                         sudo chmod -R 755 /var/www/html
-
+                        
                         echo "Frontend deployment completed."
                     '''
                 }
@@ -55,7 +60,7 @@ pipeline {
                 echo 'Building and deploying backend...'
                 dir(env.BACKEND_DIR) {
                     sh '''
-                        chmod +x gradlew   
+                        chmod +x gradlew
                         ./gradlew clean build --no-build-cache
 
                         echo "Cleaning up old Docker containers and images..."
