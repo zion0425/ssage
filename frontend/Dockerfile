@@ -3,8 +3,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm install
-
+Run npm install next@14 react@18 react-dom@18 && npm install
 COPY . .
 RUN npm run build
 
