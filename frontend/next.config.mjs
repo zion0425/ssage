@@ -8,6 +8,7 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',  // 정적 HTML 파일로 export
+  distDir: 'build',  // 빌드 결과물을 담을 디렉토리 이름
   eslint: {
     ignoreDuringBuilds: true,
   },
