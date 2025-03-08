@@ -31,27 +31,15 @@ pipeline {
                 echo 'Deploying frontend...'
                 dir(env.FRONTEND_DIR) {
                     sh '''
-                        # Node.js와 npm이 설치되어 있지 않다면 아래 주석을 풀어서 설치 가능
-                        # echo "Installing Node.js and npm..."
-                        # sudo apt-get update && sudo apt-get install -y nodejs npm
-  
-                        echo "Installing dependencies for frontend..."
-                        npm install
+                        echo "Frontend Docker Image Building..."
+                        docker build -t ssage-frontend .
 
-                        echo "Building frontend..."
-                        npm run build
+                        echo "Stopping previous frontend container (if exists)..."
+                        docker stop ssage-frontend || true
+                        docker rm ssage-frontend || true
 
-                        echo "Exporting static files..."
-                        npm run export
-
-                        echo "Deploying exported files to nginx web root..."
-                        sudo mkdir -p /var/www/html
-                        sudo rm -rf /var/www/html/*
-                        sudo cp -r out/* /var/www/html
-                        sudo chown -R www-data:www-data /var/www/html
-                        sudo chmod -R 755 /var/www/html
-
-                        echo "Frontend deployment completed."
+                        echo "Starting new frontend container..."
+                        docker run -d --name ssage-frontend -p 3000:3000 ssage-frontend
                     '''
                 }
             }

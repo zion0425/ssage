@@ -1,13 +1,14 @@
 "use client"
 
 import type React from "react"
+
 import { useState } from "react"
 import Link from "next/link"
 import { Upload, TrendingUp, Search } from "lucide-react"
-import { Button } from "../components/ui/button"
-import SearchHistory from "../components/search-history"
-import { SearchSpinner } from "../components/search-spinner"
-import { useLoading } from "../providers/loading-provider"
+import { Button } from "@/components/ui/button"
+import SearchHistory from "@/components/search-history"
+import { SearchSpinner } from "@/components/search-spinner"
+import { useLoading } from "@/providers/loading-provider"
 import { useRouter } from "next/navigation"
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
   }
 
   const handleSearchBlur = () => {
+    // Only blur if there's no search query
     if (!searchQuery) {
       setIsSearchFocused(false)
     }
@@ -35,38 +37,26 @@ export default function Home() {
     e.preventDefault()
     if (searchQuery.trim()) {
       showLoading("search", "Searching for products")
+
+      // Simulate a delay before navigation
       setTimeout(() => {
         router.push(`/results?query=${encodeURIComponent(searchQuery)}`)
+        // The loading screen will be hidden automatically when the new page loads
       }, 1500)
     }
   }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       showLoading("upload", "Analyzing your image")
       setIsUploading(true)
-      try {
-        const formData = new FormData()
-        formData.append("image", file)
-        // 백엔드 URL 고정값
-        const backendUrl = "http://localhost:8081"
-        const response = await fetch(`${backendUrl}/search`, {
-          method: "POST",
-          body: formData,
-        })
-        if (!response.ok) {
-          throw new Error("Error searching image")
-        }
-        const data = await response.json()
-        localStorage.setItem("searchResults", JSON.stringify(data))
+
+      // Simulate image processing delay
+      setTimeout(() => {
         router.push("/results?source=image")
-      } catch (error) {
-        console.error("Error searching image:", error)
-      } finally {
-        hideLoading()
-        setIsUploading(false)
-      }
+        // The loading screen will be hidden automatically when the new page loads
+      }, 2500)
     }
   }
 
@@ -91,9 +81,7 @@ export default function Home() {
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-white bg-clip-text text-transparent">
             싸게싸게
           </h1>
-          <p className="text-muted-foreground">
-            "최저가 상품 이미지 검색 - 알리바바, 타오바오, 구글"
-          </p>
+          <p className="text-muted-foreground">"최저가 상품 이미지 검색 - 알리바바, 타오바오, 구글"</p>
         </div>
 
         <div className="w-full max-w-xl">
@@ -159,9 +147,7 @@ export default function Home() {
                 </div>
                 <div className="mt-2">
                   <h3 className="text-sm font-medium truncate">{product.name}</h3>
-                  <p className="text-xs text-muted-foreground">
-                    {product.searches} recent searches
-                  </p>
+                  <p className="text-xs text-muted-foreground">{product.searches} recent searches</p>
                 </div>
               </Link>
             ))}
@@ -192,9 +178,35 @@ export default function Home() {
 }
 
 const trendingProducts = [
-  { id: 1, name: "Innisfree Green Tea Serum", image: "/placeholder.svg?height=200&width=200", searches: 1243 },
-  { id: 2, name: "COSRX Snail Mucin Essence", image: "/placeholder.svg?height=200&width=200", searches: 982 },
-  { id: 3, name: "Etude House Eyeshadow Palette", image: "/placeholder.svg?height=200&width=200", searches: 876 },
-  { id: 4, name: "Laneige Lip Sleeping Mask", image: "/placeholder.svg?height=200&width=200", searches: 754 },
-  { id: 5, name: "Sulwhasoo First Care Serum", image: "/placeholder.svg?height=200&width=200", searches: 621 },
+  {
+    id: 1,
+    name: "Innisfree Green Tea Serum",
+    image: "/placeholder.svg?height=200&width=200",
+    searches: 1243,
+  },
+  {
+    id: 2,
+    name: "COSRX Snail Mucin Essence",
+    image: "/placeholder.svg?height=200&width=200",
+    searches: 982,
+  },
+  {
+    id: 3,
+    name: "Etude House Eyeshadow Palette",
+    image: "/placeholder.svg?height=200&width=200",
+    searches: 876,
+  },
+  {
+    id: 4,
+    name: "Laneige Lip Sleeping Mask",
+    image: "/placeholder.svg?height=200&width=200",
+    searches: 754,
+  },
+  {
+    id: 5,
+    name: "Sulwhasoo First Care Serum",
+    image: "/placeholder.svg?height=200&width=200",
+    searches: 621,
+  },
 ]
+

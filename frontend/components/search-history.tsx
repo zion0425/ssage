@@ -20,6 +20,7 @@ export default function SearchHistory() {
   const router = useRouter()
 
   useEffect(() => {
+    // Load search history from localStorage
     const storedHistory = localStorage.getItem("searchHistory")
     if (storedHistory) {
       try {
@@ -42,6 +43,7 @@ export default function SearchHistory() {
     localStorage.setItem("searchHistory", JSON.stringify(updatedHistory))
   }
 
+  // If there's no search history, don't render the component
   if (searchHistory.length === 0) {
     return null
   }
@@ -104,3 +106,4 @@ export default function SearchHistory() {
     </div>
   )
 }
+

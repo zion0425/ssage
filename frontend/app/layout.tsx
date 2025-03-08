@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "싸게싸게 (SsageSSage) - Find Korean products for less",
   description:
     "Upload an image of a product from South Korea and we'll find the same or similar products from Chinese and international e-commerce sites at the best prices",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -25,3 +26,7 @@ export default function RootLayout({
     </html>
   )
 }
+
+
+
+import './globals.css'

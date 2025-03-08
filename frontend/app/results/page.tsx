@@ -1,16 +1,17 @@
 "use client"
 
 import type React from "react"
+
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, ChevronDown, Filter, Search, SlidersHorizontal, Upload } from "lucide-react"
-import { Button } from "../../components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "../../components/ui/tabs"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../components/ui/dropdown-menu"
-import { Badge } from "../../components/ui/badge"
-import { SearchSpinner } from "../../components/search-spinner"
-import { useLoading } from "../../providers/loading-provider"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Badge } from "@/components/ui/badge"
+import { SearchSpinner } from "@/components/search-spinner"
+import { useLoading } from "@/providers/loading-provider"
 
 export default function ResultsPage() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
@@ -23,12 +24,16 @@ export default function ResultsPage() {
   const { hideLoading, showLoading } = useLoading()
 
   useEffect(() => {
+    // Hide loading screen when component mounts
     if (!isLoaded) {
+      // Simulate a delay to show results
       setTimeout(() => {
         hideLoading()
         setIsLoaded(true)
       }, 1000)
     }
+
+    // Save search to history when the page loads
     if (query) {
       saveToSearchHistory(query)
     }
@@ -39,6 +44,7 @@ export default function ResultsPage() {
   }
 
   const handleSearchBlur = () => {
+    // Only blur if there's no search query
     if (!searchQuery) {
       setIsSearchFocused(false)
     }
@@ -52,6 +58,8 @@ export default function ResultsPage() {
     e.preventDefault()
     if (searchQuery && searchQuery !== query) {
       showLoading("search", "Searching for products")
+
+      // Simulate a delay before refreshing results
       setTimeout(() => {
         window.location.href = `/results?query=${encodeURIComponent(searchQuery)}`
       }, 1500)
@@ -60,25 +68,34 @@ export default function ResultsPage() {
 
   const saveToSearchHistory = (searchQuery: string) => {
     try {
+      // Get existing history
       const existingHistory = localStorage.getItem("searchHistory")
       let history = existingHistory ? JSON.parse(existingHistory) : []
+
+      // Create new history item
       const newItem = {
         id: Date.now().toString(),
         query: searchQuery,
-        imageUrl: "/placeholder.svg?height=200&width=200",
+        imageUrl: "/placeholder.svg?height=200&width=200", // In a real app, this would be the actual image URL
         timestamp: Date.now(),
       }
+
+      // Add to history (most recent first)
       history = [newItem, ...history.filter((item: any) => item.query.toLowerCase() !== searchQuery.toLowerCase())]
+
+      // Limit history to 10 items
       if (history.length > 10) {
         history = history.slice(0, 10)
       }
+
+      // Save back to localStorage
       localStorage.setItem("searchHistory", JSON.stringify(history))
     } catch (error) {
       console.error("Failed to save search history:", error)
     }
   }
 
-  // 예시 데이터
+  // Sample results data
   const results = [
     {
       id: 1,
@@ -108,12 +125,94 @@ export default function ResultsPage() {
       shipping: "$2.99 shipping",
       url: "#",
     },
-    // ... 나머지 데이터
+    {
+      id: 3,
+      name: "COSRX Advanced Snail 96 Mucin Power Essence",
+      image: "/placeholder.svg?height=300&width=300",
+      price: 16.99,
+      originalPrice: 24.0,
+      currency: "USD",
+      store: "Shopee",
+      storeIcon: "/placeholder.svg?height=20&width=20",
+      rating: 4.7,
+      reviews: 1021,
+      shipping: "Free shipping",
+      url: "#",
+    },
+    {
+      id: 4,
+      name: "COSRX Advanced Snail 96 Mucin Power Essence",
+      image: "/placeholder.svg?height=300&width=300",
+      price: 18.5,
+      originalPrice: 25.0,
+      currency: "USD",
+      store: "Taobao",
+      storeIcon: "/placeholder.svg?height=20&width=20",
+      rating: 4.5,
+      reviews: 543,
+      shipping: "$3.99 shipping",
+      url: "#",
+    },
+    {
+      id: 5,
+      name: "COSRX Advanced Snail 96 Mucin Power Essence",
+      image: "/placeholder.svg?height=300&width=300",
+      price: 19.99,
+      originalPrice: 24.99,
+      currency: "USD",
+      store: "iHerb",
+      storeIcon: "/placeholder.svg?height=20&width=20",
+      rating: 4.9,
+      reviews: 2134,
+      shipping: "Free shipping",
+      url: "#",
+    },
+    {
+      id: 6,
+      name: "COSRX Advanced Snail 96 Mucin Power Essence",
+      image: "/placeholder.svg?height=300&width=300",
+      price: 21.99,
+      originalPrice: 29.99,
+      currency: "USD",
+      store: "YesStyle",
+      storeIcon: "/placeholder.svg?height=20&width=20",
+      rating: 4.7,
+      reviews: 1876,
+      shipping: "$1.99 shipping",
+      url: "#",
+    },
+    {
+      id: 7,
+      name: "COSRX Advanced Snail 96 Mucin Power Essence",
+      image: "/placeholder.svg?height=300&width=300",
+      price: 23.5,
+      originalPrice: 30.0,
+      currency: "USD",
+      store: "Jolse",
+      storeIcon: "/placeholder.svg?height=20&width=20",
+      rating: 4.8,
+      reviews: 987,
+      shipping: "Free shipping",
+      url: "#",
+    },
+    {
+      id: 8,
+      name: "COSRX Advanced Snail 96 Mucin Power Essence",
+      image: "/placeholder.svg?height=300&width=300",
+      price: 24.99,
+      originalPrice: 29.99,
+      currency: "USD",
+      store: "StyleKorean",
+      storeIcon: "/placeholder.svg?height=20&width=20",
+      rating: 4.6,
+      reviews: 765,
+      shipping: "$2.99 shipping",
+      url: "#",
+    },
   ]
 
-  const sortedResults = [...results].sort((a, b) =>
-    sortOrder === "asc" ? a.price - b.price : b.price - a.price
-  )
+  // Sort results by price
+  const sortedResults = [...results].sort((a, b) => (sortOrder === "asc" ? a.price - b.price : b.price - a.price))
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -160,30 +259,13 @@ export default function ResultsPage() {
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                    onChange={(e) => {
                       const file = e.target.files?.[0]
                       if (file) {
                         showLoading("upload", "Analyzing your image")
-                        try {
-                          const formData = new FormData()
-                          formData.append("image", file)
-                          // 백엔드 URL 고정값
-                          const backendUrl = "http://localhost:8081"
-                          const response = await fetch(`${backendUrl}/search`, {
-                            method: "POST",
-                            body: formData,
-                          })
-                          if (!response.ok) {
-                            throw new Error("Error searching image")
-                          }
-                          const data = await response.json()
-                          localStorage.setItem("searchResults", JSON.stringify(data))
+                        setTimeout(() => {
                           window.location.href = "/results?source=image"
-                        } catch (error) {
-                          console.error("Error searching image:", error)
-                        } finally {
-                          hideLoading()
-                        }
+                        }, 2500)
                       }
                     }}
                   />
@@ -222,12 +304,8 @@ export default function ResultsPage() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setSortOrder("asc")}>
-                  Price: Low to High
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortOrder("desc")}>
-                  Price: High to Low
-                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortOrder("asc")}>Price: Low to High</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortOrder("desc")}>Price: High to Low</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -284,3 +362,4 @@ export default function ResultsPage() {
     </div>
   )
 }
+

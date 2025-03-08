@@ -12,14 +12,17 @@ interface LoadingScreenProps {
 export function LoadingScreen({ isVisible, message = "Loading...", type = "navigation" }: LoadingScreenProps) {
   const [loadingDots, setLoadingDots] = useState("")
 
+  // Animate the loading dots
   useEffect(() => {
     if (!isVisible) return
+
     const interval = setInterval(() => {
       setLoadingDots((prev) => {
         if (prev.length >= 3) return ""
         return prev + "."
       })
     }, 500)
+
     return () => clearInterval(interval)
   }, [isVisible])
 
@@ -30,6 +33,7 @@ export function LoadingScreen({ isVisible, message = "Loading...", type = "navig
       <div className="bg-background border rounded-lg shadow-lg p-8 max-w-md w-full mx-4 flex flex-col items-center">
         <div className="mb-6 relative">
           {type === "navigation" && <Loader2 className="h-12 w-12 text-primary animate-spin" />}
+
           {type === "search" && (
             <div className="relative">
               <Search className="h-12 w-12 text-primary" />
@@ -38,6 +42,7 @@ export function LoadingScreen({ isVisible, message = "Loading...", type = "navig
               </div>
             </div>
           )}
+
           {type === "upload" && (
             <div className="relative">
               <Image className="h-12 w-12 text-primary" />
@@ -83,3 +88,4 @@ export function LoadingScreen({ isVisible, message = "Loading...", type = "navig
     </div>
   )
 }
+

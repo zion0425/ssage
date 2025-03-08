@@ -21,3 +21,4 @@ export function SearchSpinner({ isVisible, className }: SearchSpinnerProps) {
     </div>
   )
 }
+
