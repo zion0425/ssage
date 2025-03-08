@@ -31,22 +31,26 @@ pipeline {
                 echo 'Deploying frontend...'
                 dir(env.FRONTEND_DIR) {
                     sh '''
+                        # Node.js와 npm이 설치되어 있지 않다면 아래 주석을 풀어서 설치 가능
+                        # echo "Installing Node.js and npm..."
+                        # sudo apt-get update && sudo apt-get install -y nodejs npm
+  
                         echo "Installing dependencies for frontend..."
                         npm install
-                        
+
                         echo "Building frontend..."
                         npm run build
-                        
+
                         echo "Exporting static files..."
                         npm run export
-                        
+
                         echo "Deploying exported files to nginx web root..."
                         sudo mkdir -p /var/www/html
                         sudo rm -rf /var/www/html/*
                         sudo cp -r out/* /var/www/html
                         sudo chown -R www-data:www-data /var/www/html
                         sudo chmod -R 755 /var/www/html
-                        
+
                         echo "Frontend deployment completed."
                     '''
                 }
