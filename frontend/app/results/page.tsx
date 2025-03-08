@@ -5,12 +5,12 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, ChevronDown, Filter, Search, SlidersHorizontal, Upload } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { SearchSpinner } from "@/components/search-spinner"
-import { useLoading } from "@/providers/loading-provider"
+import { Button } from "../../components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "../../components/ui/tabs"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../components/ui/dropdown-menu"
+import { Badge } from "../../components/ui/badge"
+import { SearchSpinner } from "../../components/search-spinner"
+import { useLoading } from "../../providers/loading-provider"
 
 export default function ResultsPage() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc")
