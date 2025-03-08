@@ -8,6 +8,9 @@ RUN npm install
 COPY . .
 RUN npm run build  # 정확히 프로젝트 루트의 out에 생성됨
 
+# Nginx 디렉토리 강제로 생성 (권장)
+RUN mkdir -p /usr/share/nginx/html
+
 # Production stage - Nginx로 정적 파일 제공
 FROM nginx:stable-alpine AS runner
 COPY --from=builder /app/out /usr/share/nginx/html  # 생성된 정적 파일을 nginx 경로로 복사
