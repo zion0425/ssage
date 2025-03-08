@@ -31,15 +31,13 @@ pipeline {
                 echo 'Deploying frontend...'
                 dir(env.FRONTEND_DIR) {
                     sh '''
-                        echo "Frontend Docker Image Building..."
-                        docker build -t ssage-frontend .
+                        npm install
+                        npm run build  # output: export로 정적 빌드 완료됨
 
-                        echo "Stopping previous frontend container (if exists)..."
+                        docker build -t ssage-frontend .
                         docker stop ssage-frontend || true
                         docker rm ssage-frontend || true
-
-                        echo "Starting new frontend container..."
-                        docker run -d --name ssage-frontend -p 3000:3000 ssage-frontend
+                        docker run -d -p 3000:80 --name ssage-frontend ssage-frontend
                     '''
                 }
             }
