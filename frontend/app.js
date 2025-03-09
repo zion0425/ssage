@@ -68,8 +68,7 @@ searchForm.addEventListener("submit", async (e) => {
   formData.append("image", file)
 
   try {
-    alert('test');
-    const response = await fetch("https://ssagessage.com/search", {
+    const response = await fetch("/api/search", {
       method: "POST",
       body: formData,
     })
