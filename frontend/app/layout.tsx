@@ -1,32 +1,23 @@
-import type React from "react"
+// app/layout.tsx
+import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import "./globals.css"
-import { LoadingProvider } from "@/providers/loading-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "싸게싸게 (SsageSSage) - Find Korean products for less",
-  description:
-    "Upload an image of a product from South Korea and we'll find the same or similar products from Chinese and international e-commerce sites at the best prices",
-    generator: 'v0.dev'
+  title: "SSAGE - 이미지 최저가 검색",
+  description: "최저가 상품 이미지 검색 서비스",
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <LoadingProvider>{children}</LoadingProvider>
-      </body>
+    <html lang="ko">
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }
-
-
-
-import './globals.css'
